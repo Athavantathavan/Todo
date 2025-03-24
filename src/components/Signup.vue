@@ -46,7 +46,7 @@ export default {
           this.message ='Password Mustmatch';
           return false;
         }
-      return true;
+         return true;
     },
     async frm() {
           
@@ -60,7 +60,7 @@ export default {
           this.message="Email Exists"
          }
          else{
-          this.$router.push('/signup')
+          this.$router.push('/login')
          }
           
         }

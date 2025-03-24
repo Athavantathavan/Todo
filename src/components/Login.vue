@@ -1,4 +1,6 @@
 <template>
+  <div>
+   
   <div class="outer">
     <div class="inner">
       <h3>Login</h3>
@@ -16,21 +18,22 @@
           name="password"
         />
         <button type="submit" class="btn" >Submit</button>
-
-   
-      <center>  <p v-if="errorMessage" class="error">{{ errorMessage }}</p></center>
-
+        <center>  <p v-if="errorMessage" class="error">{{ errorMessage }}</p></center>
         <router-link to="/">Don't have Account</router-link>
       </form>
    </div>
+  </div>
   </div>
 </template>
 
 <script>
 import axios from "axios";
-
+import Header from "./Header.vue";
 
 export default {
+  components:{
+      Header
+    },
   data() {
     return {
       errorMessage: "",
@@ -41,6 +44,7 @@ export default {
     };
   },
   methods: {
+    
     validate() {
          
          setTimeout(()=>{
@@ -59,9 +63,12 @@ export default {
         console.log(this.formdata)
         const res= await axios.post("http://127.0.0.1:8000/api/login", this.formdata);
         localStorage.setItem("Token",res.data.Token)
-         console.log(res.data)
+        localStorage.setItem("id",res.data.id)
+        localStorage.setItem("email",res.data.email)
+        console.log(localStorage.getItem('email'))
+        console.log(res.data)
         if(res.data.message==='success'){
-        this.$router.push('/dashboard')
+        this.$router.push('/')
       }
       else{
         this. errorMessage='Invalid Credentials'
