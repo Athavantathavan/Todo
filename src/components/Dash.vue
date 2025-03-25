@@ -20,5 +20,8 @@
   };
   </script>
   <style>
- 
+    .maindiv{
+
+     width: 100vw;
+    }
   </style>

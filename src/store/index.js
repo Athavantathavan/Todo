@@ -22,19 +22,23 @@ export default new Vuex.Store({
     },
      setdata(state,data){
         state.task=data;
-        console.log(state.task[0].title)
+      //  console.log(state.task[0].title)
         
      }
   },
   actions: {
-        async update({commit},tasks){
+           async update({commit},tasks){
             try{
             let {id,title,description,status}=tasks
           //  let task={id,title,description,status}
            
             //console.log(task)
+            const token=localStorage.getItem("Token")
              const res= await axios.put("http://127.0.0.1:8000/api/update",
-                tasks
+                tasks,{ headers: {
+                  'Authorization': `Bearer ${token}`   
+            }
+                }
              );
            console.log(res)
              commit('update',tasks);
@@ -43,9 +47,12 @@ export default new Vuex.Store({
                 console.log(error)
             }                                                         
        },
-       async get({commit},id){
-        try {
-            const res = await axios.get(`http://127.0.0.1:8000/api/getdata/${id}`); 
+         async get({commit},id){
+         try {
+          const token=localStorage.getItem("Token")
+            const res = await axios.get(`http://127.0.0.1:8000/api/getdata/${id}`,{ headers: {
+              Authorization: `Bearer ${token}`
+            }}); 
             console.log(res.data.task.length)
             if(res.data.task.length>0){
             commit('setdata', res.data.task);
@@ -54,8 +61,13 @@ export default new Vuex.Store({
             console.error('Error fetching data:', error);
         }
        },
-       async  delete({commit},id){
-        const res =await axios.delete(`http://127.0.0.1:8000/api/delete/${id}`); 
+         async  delete({commit},id){
+         const token=localStorage.getItem("Token")
+         const res = await axios.delete(`http://127.0.0.1:8000/api/delete/${id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
         if(res)
         commit('delete',id);
        }

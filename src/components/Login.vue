@@ -1,6 +1,6 @@
 <template>
   <div>
-   
+ <Header/>
   <div class="outer">
     <div class="inner">
       <h3>Login</h3>
@@ -17,23 +17,27 @@
           v-model="formdata.password" 
           name="password"
         />
-        <button type="submit" class="btn" >Submit</button>
+        <button type="submit" class="loginbtn" >Submit</button>
         <center>  <p v-if="errorMessage" class="error">{{ errorMessage }}</p></center>
-        <router-link to="/">Don't have Account</router-link>
+        <router-link to="/signup">Don't have Account ?</router-link>
       </form>
    </div>
   </div>
   </div>
+  
 </template>
 
 <script>
 import axios from "axios";
 import Header from "./Header.vue";
+import router from "../Router";
+
+
 
 export default {
   components:{
-      Header
-    },
+    Header
+  },
   data() {
     return {
       errorMessage: "",
@@ -78,8 +82,14 @@ export default {
        
       }
     }
-    },
+    }
+   
   },
+  mounted(){
+    if(localStorage.getItem("Token")){
+      router.push('/')
+    }
+  }
 };
 </script>
 
@@ -88,7 +98,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100vh;
+  height: 40em;
 
   
 }
@@ -114,13 +124,12 @@ form{
 input{
   padding: 15px;
 }
-.btn{
-  padding: 0.5em;
+.loginbtn{
+  padding: 0.8em;
+  background-color: rgb(60, 172, 60);
+  border-radius:10px;
 }
-
-
-
-
-
-
+.loginbtn:hover{
+  background-color: rgb(8, 145, 8);
+}
 </style>

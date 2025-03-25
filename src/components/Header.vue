@@ -1,21 +1,24 @@
 <template>
-    <div class='header'>
-      
-        <img src="" alt="image"  :style="{marginLeft:'3em'}">
-            <div  class='innerdiv'>     
-            <div class="logos" :style="{textAlign:'center', alignItems:'center'
-          ,fontSize:'1.5em',lineHeight:'1.5em',textTransform:'capitalize'}" >{{logo}}</div>
-            <button @click="logout" type="submit" class="logout-btn" >Logout</button>
+ 
+         <div class='header'>
+            <img src="../assets/Todo.png" alt="image"  :style="{width:'200px',objectFit:'cover'}">
+                   
+            <div  class='innerdiv' v-show="Token" >     
+              <div class="logos" :style="{textAlign:'center', alignItems:'center',fontSize:'1.3em',lineHeight:'1.8em'}" >{{logo}}</div>
+              <button @click="logout" type="submit" class="logout-btn" >Logout</button>
+            </div>
         </div>
-      
-    </div>
+
   </template>
   <script>
 import router from '../Router';
+import '../assets/Todo.png'
   export default {
+    
     name:'Header',
     data() {
       return {
+        Token:"",
         logo:''
        
       };
@@ -24,17 +27,14 @@ import router from '../Router';
         logout(){
             localStorage.removeItem("Token")
             router.push('/login')
+
         }
         
     },
     created() {
-        if(!localStorage.getItem("Token")){
-            this.$router.push('/login')
-        }
-        console.log(localStorage.getItem('email'))
-        this.logo=localStorage.getItem('email')[0] +localStorage.getItem('email')[1]
-       
-
+          this.Token=localStorage.getItem("Token")
+          console.log(localStorage.getItem('email'))
+          this.logo=(localStorage.getItem('email')[0]+localStorage.getItem('email')[1]).toUpperCase()
     }
 
   };
@@ -42,13 +42,12 @@ import router from '../Router';
   <style>
   .header{ 
       height: 105px;
-     
-      background-color:rgba(206, 203, 192, 0.897);
+      width: 100vw;
+      background-color:rgba(248, 247, 242, 0.897);
+      box-shadow: 3px 3px 2px 0.1px rgb(114, 112, 112);
       display: flex;
       align-items: center;
       justify-content: space-between;
-     
-      
   }
   .logo{
     display: flex;
@@ -76,6 +75,7 @@ import router from '../Router';
     border-radius:10px;
     margin-left: 2em;
     margin-right: 2em;
+    cursor: pointer;
     background-color: rgba(190, 13, 13, 0.733);
 
 

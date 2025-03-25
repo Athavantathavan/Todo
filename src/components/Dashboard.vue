@@ -7,15 +7,17 @@
           type="text" 
           v-model="task.title" 
           name="title"
+          placeholder="Title"
           
         />
         <input 
           type="text" 
-          placeholder="" 
+          placeholder="Description" 
           v-model="task.discription" 
+       
           name="discription"
         />
-        <button :style="{backgroundColor:'green',cursor:'pointer',paddingLeft:'1.7em',paddingRight:'1.7em',borderRadius:'5px'}">Add</button>
+        <button  class="addbutton" :style="{backgroundColor:'green',cursor:'pointer',paddingLeft:'1.7em',paddingRight:'1.7em',borderRadius:'5px'}">AddTask</button>
       </form>
     </div>
    </div>
@@ -33,6 +35,7 @@ export default {
   components:{
       Taskbody
 },
+name:'Dashboard',
   data() {
     
     return {
@@ -67,7 +70,11 @@ export default {
           
     }
          });
+         this.task.title=""
+         this.task.discription=""
+          
          this.componentKey=this.componentKey+1;
+         console.log(typeof res)
          console.log(res.data)
         } 
         catch (error) {
@@ -84,19 +91,33 @@ export default {
 
 .container{
   display: flex;
-   justify-content: center;
-   
+  justify-content: center;
+   height: 80px;
+ 
+}
+.addbutton:hover{
+
+     background-color:rgb(19, 18, 102)
 }
 .out{
-  margin-top: 4em;
+  margin:3em;
+  height:70px;
+  width: 800px;
+  display: flex;
+  background-color: rgb(227, 238, 238);
+  align-items: center;
+  justify-content: center;
+  border-radius: 20px;
+
 }
+
 .forms{
   display: flex;
   flex-direction: row;
   
 }
 .forms >input{
-  border:1.9px solid black;
+  border:1.8px solid black;
 }
 
 

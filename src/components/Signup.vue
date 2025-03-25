@@ -1,4 +1,6 @@
 <template>
+  <div>
+    <Header/>
   <div class="outer">
     <div class="inner">
       <h3>Signup</h3>
@@ -10,16 +12,20 @@
      
       <button class="login_button" >Submit</button>
       <center> <span v-if="message">{{ message }}</span></center>
-      <router-link to="/Login">Already have an Account ?</router-link>
+      <router-link to="/Login">Already have an account ?</router-link>
     </form>
   </div>
+</div>
   </div>
 </template>
 
 <script>
 import axios from 'axios';
-
+import Header from './Header.vue';
 export default {
+  components:{
+   Header
+  },
   data() {
     return {
      message:'',
@@ -75,6 +81,12 @@ export default {
 </script>
 <style>
 .login_button{
-  padding: 0.6em;
+  padding: 0.7em;
+  border-radius:10px;
+  cursor: pointer;
+  background-color: rgb(66, 132, 194);
+}
+.login_button:hover{
+  background-color: rgb(40, 108, 172);
 }
 </style>
