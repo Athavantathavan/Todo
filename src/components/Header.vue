@@ -4,7 +4,8 @@
             <img src="../assets/Todo.png" alt="image"  :style="{width:'200px',objectFit:'cover'}">
                    
             <div  class='innerdiv' v-show="Token" >     
-              <div class="logos" :style="{textAlign:'center', alignItems:'center',fontSize:'1.3em',lineHeight:'1.8em'}" >{{logo}}</div>
+              <div class="logos" :style="{textAlign:'center', alignItems:'center',fontSize:'1.3em',
+                                        lineHeight:'1.8em'}" >{{logo}}</div>
               <button @click="logout" type="submit" class="logout-btn" >Logout</button>
             </div>
         </div>
@@ -77,6 +78,7 @@ import '../assets/Todo.png'
     margin-right: 2em;
     cursor: pointer;
     background-color: rgba(190, 13, 13, 0.733);
+    border: none;
 
 
   }

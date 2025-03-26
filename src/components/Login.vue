@@ -3,13 +3,14 @@
  <Header/>
   <div class="outer">
     <div class="inner">
-      <h3>Login</h3>
-      <form @submit.prevent="frm">
+      <h3  :style="{marginBottom:'1em'}">Login</h3>
+      <form @submit.prevent="frm" :style="{  height: '180px'}">
         <input 
           type="email" 
           placeholder="Email" 
           v-model="formdata.email" 
           name="email"
+         
         />
         <input 
           type="password" 
@@ -18,8 +19,9 @@
           name="password"
         />
         <button type="submit" class="loginbtn" >Submit</button>
-        <center>  <p v-if="errorMessage" class="error">{{ errorMessage }}</p></center>
-        <router-link to="/signup">Don't have Account ?</router-link>
+        <p>Don't have an account ? <span><router-link to="/signup">Signup</router-link></span></p>
+        <center>  <p v-if="errorMessage" :style="{color:color,fontSize:'1.1em'}" class="error">{{ errorMessage }}</p></center>
+       
       </form>
    </div>
   </div>
@@ -41,6 +43,7 @@ export default {
   data() {
     return {
       errorMessage: "",
+      color:'red',
       formdata: {
         email: "",
         password: "",
@@ -54,9 +57,13 @@ export default {
          setTimeout(()=>{
          this.errorMessage=''
        },2000)
-         if (!this.formdata.email || !this.formdata.password ) {
-         this.errorMessage='Not be Empty';
+         if (!this.formdata.email) {
+         this.errorMessage='Email is Empty';
          return false;
+        } 
+        else if(!this.formdata.password){
+          this.errorMessage='Pssword is Empty';
+          return false;
         }
        return true;
         },
@@ -65,17 +72,23 @@ export default {
       if(this.validate()){
       try {
         console.log(this.formdata)
-        const res= await axios.post("http://127.0.0.1:8000/api/login", this.formdata);
-        localStorage.setItem("Token",res.data.Token)
-        localStorage.setItem("id",res.data.id)
-        localStorage.setItem("email",res.data.email)
-        console.log(localStorage.getItem('email'))
-        console.log(res.data)
-        if(res.data.message==='success'){
-        this.$router.push('/')
+        const response= await axios.post("http://127.0.0.1:8000/api/login", this.formdata);
+        localStorage.setItem("Token",response.data.Token)
+        localStorage.setItem("id",response.data.id)
+        localStorage.setItem("email",response.data.email)
+        console.log(response.data)
+        
+        if(response.data.message==='success'){
+          this.color='green'
+          this.errorMessage="Login Succesfull"
+
+          setTimeout(()=>{
+            this.$router.push('/')
+          },1000)
+       
       }
-      else{
-        this. errorMessage='Invalid Credentials'
+       else{
+         this. errorMessage='Invalid Credentials'
       }
       } catch (error) {
         console.error(error);
@@ -100,7 +113,7 @@ export default {
   justify-content: center;
   height: 40em;
 
-  
+  /* rgba(250, 230, 204, 0.589); */
 }
 .inner{
  height: 450px;
@@ -115,11 +128,12 @@ export default {
 }
 form{
   display: flex;
-  flex-direction: column;
+  flex-direction: column; 
+
   gap: 1em;
   width:60%;
-
 }
+
 
 input{
   padding: 15px;

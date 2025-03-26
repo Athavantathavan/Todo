@@ -3,16 +3,16 @@
     <Header/>
   <div class="outer">
     <div class="inner">
-      <h3>Signup</h3>
-    <form v-on:submit.prevent="frm">
+      <h3  :style="{marginBottom:'1.4em',fontSize:'1.5em',fontWeight:'100px'}">Signup</h3>
+    <form v-on:submit.prevent="frm"  class="signupform">
       <input type="text" placeholder="Name" v-model="formdata.name" name="name">
       <input type="email" placeholder="Email" v-model="formdata.email" name="email">
       <input type="password" placeholder="Password" v-model="formdata.password" name="password">
       <input type="password" placeholder="Confirm Password" v-model="formdata.confirmpassword" name="confirmpassword">
      
       <button class="login_button" >Submit</button>
-      <center> <span v-if="message">{{ message }}</span></center>
-      <router-link to="/Login">Already have an account ?</router-link>
+    <p>Already have an account ? <span><router-link to="/Login">Login</router-link></span></p>
+      <center> <span v-if="message" :style="{color:color}" >{{ message }}</span></center>
     </form>
   </div>
 </div>
@@ -29,6 +29,8 @@ export default {
   data() {
     return {
      message:'',
+     color:'red',
+     passwordformat:[""],
       formdata: {
         name: "",
         email: "",
@@ -45,10 +47,10 @@ export default {
       },2000)
         if (!this.formdata.name || !this.formdata.email || !this.formdata.password || !this.formdata.confirmpassword) {
         this.message ='All fields are required';
-     
         return false;
        }
-      else if(this.formdata.password!==this.formdata.confirmpassword){
+       
+     else if(this.formdata.password!==this.formdata.confirmpassword){
           this.message ='Password Mustmatch';
           return false;
         }
@@ -75,7 +77,8 @@ export default {
           
         }
       }
-    }
+    }, 
+   
   }
 };
 </script>
@@ -84,9 +87,12 @@ export default {
   padding: 0.7em;
   border-radius:10px;
   cursor: pointer;
-  background-color: rgb(66, 132, 194);
+  background-color:#0056b3;
 }
 .login_button:hover{
-  background-color: rgb(40, 108, 172);
+  background-color:#176bc5;
+}
+.signupform{
+  height:360px
 }
 </style>

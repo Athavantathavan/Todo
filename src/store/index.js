@@ -6,54 +6,60 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-     task:[]
-  },
-  mutations: {
-    update(state,tas){
-      const index = state.task.findIndex(task => task.id ===tas.id);
+     task:[],
+     message:''
      
+  },
+
+
+  mutations: {
+      update(state,tas){
+      const index = state.task.findIndex(task => task.id ===tas.id);
       if (index !== -1) {
         Vue.set(state.task, index,tas);
       }
     },
     delete(state,taskId){
       state.task = state.task.filter(task => task.id !== taskId);
-        console.log(state.task)
+      console.log(state.task)
     },
      setdata(state,data){
         state.task=data;
-      //  console.log(state.task[0].title)
-        
-     }
+      
+     },
+     setmessage(state,data){
+      state.message=data
+     },
+    
   },
+
+
   actions: {
            async update({commit},tasks){
             try{
-            let {id,title,description,status}=tasks
-          //  let task={id,title,description,status}
-           
-            //console.log(task)
             const token=localStorage.getItem("Token")
-             const res= await axios.put("http://127.0.0.1:8000/api/update",
-                tasks,{ headers: {
+            const res= await axios.put("http://127.0.0.1:8000/api/update",
+                   tasks,{ headers: {
                   'Authorization': `Bearer ${token}`   
             }
                 }
              );
            console.log(res)
-             commit('update',tasks);
+           commit('update',tasks);
             }
             catch(error){
                 console.log(error)
             }                                                         
        },
+
+
          async get({commit},id){
          try {
-          const token=localStorage.getItem("Token")
+            const token=localStorage.getItem("Token")
             const res = await axios.get(`http://127.0.0.1:8000/api/getdata/${id}`,{ headers: {
               Authorization: `Bearer ${token}`
             }}); 
-            console.log(res.data.task.length)
+            
             if(res.data.task.length>0){
             commit('setdata', res.data.task);
             }
@@ -61,17 +67,27 @@ export default new Vuex.Store({
             console.error('Error fetching data:', error);
         }
        },
+
+
          async  delete({commit},id){
-         const token=localStorage.getItem("Token")
-         const res = await axios.delete(`http://127.0.0.1:8000/api/delete/${id}`, {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
+          try{   
+                 const token=localStorage.getItem("Token")
+                 const response = await axios.delete(`http://127.0.0.1:8000/api/delete/${id}`, {
+                                    headers: {
+                                    Authorization: `Bearer ${token}`
+                                     }
         });
-        if(res)
-        commit('delete',id);
-       }
+        if(response.data.message==='Deleted'){
+          commit('delete',id);
+        } 
+        }
+        catch(error){
+          console.log(error)
+        }
+      
   },
+},
+
   getters: {
     gettask: (state) => state.task
   }
